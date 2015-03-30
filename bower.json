@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "respond-minmax": "~1.4.2",
-    "zepto": "~1.1.6"
+    "zepto": "~1.1.6",
+    "normalize.css": "~3.0.2"
   }
 }

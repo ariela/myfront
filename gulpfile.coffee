@@ -9,6 +9,7 @@ webserver = require 'gulp-webserver'
 sequence  = require 'run-sequence'
 rename    = require 'gulp-rename'
 gzip      = require 'gulp-gzip'
+del       = require 'del'
 
 compass   = require 'gulp-compass'
 concatCss = require 'gulp-concat-css'
@@ -23,8 +24,9 @@ concatJs  = require 'gulp-concat'
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 options =
     'dest':
-        'css': 'assets/css'
-        'js':  'assets/js'
+        'css':   'assets/css'
+        'js':    'assets/js'
+        'image': 'assets/img'
     'build':
         'css': 'build/css'
         'js':  'build/js'
@@ -47,7 +49,10 @@ gulp.task 'css', ->
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 # [タスク][css] ベンダーディレクトリから必要なCSSを収集する
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-gulp.task 'css:vendor', ->
+gulp.task 'css:vendor', ['css:clean'], ->
+    gulp.src options.src.vendor + '/normalize.css/normalize.css'
+        .pipe rename prefix: '0-'
+        .pipe gulp.dest options.build.css
 
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 # [タスク][css] scssをcompassでビルド
@@ -57,8 +62,13 @@ gulp.task 'css:compass', ->
         .pipe plumber
             errorHandler: notify.onError "Error: <%= error.message %>"
         .pipe compass
+            style: 'nested'
+            relative: true
             css:  options.build.css
             sass: options.src.scss
+            javascript: options.build.js
+            generated_images_path: options.dest.image
+
 
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 # [タスク][css] cssを結合・最小化する
@@ -86,6 +96,15 @@ gulp.task 'css:archive', ->
         .pipe gulp.dest options.dest.css
 
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# [タスク][css] CSSのビルドファイルをクリアする
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+gulp.task 'css:clean', ->
+    del [
+        options.build.css + '/**/*'
+        options.dest.css + '/main.*'
+    ]
+
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 # [タスク] JavaScriptのタスク全般を処理
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 gulp.task 'js', ->
@@ -99,8 +118,9 @@ gulp.task 'js', ->
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 # [タスク][js] ベンダーディレクトリから必要なJavaScriptを収集する
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-gulp.task 'js:vendor', ->
+gulp.task 'js:vendor', ['js:clean'], ->
     gulp.src options.src.vendor + '/zepto/zepto.min.js'
+        .pipe rename prefix: '0-'
         .pipe gulp.dest options.build.js
     gulp.src options.src.vendor + '/respond-minmax/dest/respond.min.js'
         .pipe gulp.dest options.dest.js
@@ -141,6 +161,16 @@ gulp.task 'js:archive', ->
         .pipe gulp.dest options.dest.js
 
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# [タスク][js] Javascriptのビルドファイルをクリアする
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+gulp.task 'js:clean', ->
+    del [
+        options.build.js + '/**/*'
+        options.dest.js + '/main.*'
+        options.dest.js + '/respond.min.*'
+    ]
+
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 # [タスク] watch処理を行う
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 gulp.task 'watch', ->
@@ -156,6 +186,16 @@ gulp.task 'server', ->
             fallback: 'index.html'
             directoryListing: true
             livereload: true
+
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# [タスク] ビルドタスク
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+gulp.task 'build', ['css', 'js']
+
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+# [タスク] クリーンタスク
+#---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+gulp.task 'clean', ['css:clean', 'js:clean']
 
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 # [タスク] デフォルトタスク
