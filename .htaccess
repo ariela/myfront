@@ -4,6 +4,29 @@ DirectoryIndex index.php index.html
 # 動作設定
 Options +FollowSymLinks -Indexes
 
+# URL制御
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+
+    # gzファイルが存在する場合にはgzファイルを優先表示
+    RewriteCond %{HTTP:Accept-Encoding} gzip
+    RewriteCond %{REQUEST_FILENAME} !.gz$
+    RewriteCond %{REQUEST_FILENAME}\.gz -s
+    RewriteRule .+ %{REQUEST_URI}.gz
+
+    # javascript 圧縮対応
+    <FilesMatch "\.js\.gz$">
+        ForceType application/x-javascript
+        AddEncoding x-gzip .gz
+    </FilesMatch>
+
+    # css 圧縮対応
+    <FilesMatch "\.css\.gz$">
+        ForceType text/css
+        AddEncoding x-gzip .gz
+    </FilesMatch>
+</IfModule>
+
 # キャッシュ設定
 <IfModule mod_expires.c>
     ExpiresActive On
@@ -46,18 +69,6 @@ Options +FollowSymLinks -Indexes
 
     Header append Vary User-Agent env=!dont-vary
 </IfModule>
-
-# javascript 圧縮対応
-<FilesMatch "\.js\.gz$">
-    ForceType application/x-javascript
-    AddEncoding x-gzip .gz
-</FilesMatch>
-
-# css 圧縮対応
-<FilesMatch "\.css\.gz$">
-    ForceType text/css
-    AddEncoding x-gzip .gz
-</FilesMatch>
 
 # 非公開ファイルのアクセス制限
 <Files .*>
