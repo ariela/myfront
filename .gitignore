@@ -3,3 +3,5 @@ node_modules
 src/vendor
 build/css/*.css
 build/js/*.js
+assets/css/*
+assets/js/*

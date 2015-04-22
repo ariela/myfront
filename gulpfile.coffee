@@ -50,6 +50,9 @@ gulp.task 'css', ->
 # [タスク][css] ベンダーディレクトリから必要なCSSを収集する
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 gulp.task 'css:vendor', ['css:clean'], ->
+    gulp.src options.src.vendor + '/animate-css/animate.css'
+        .pipe rename prefix: '0-'
+        .pipe gulp.dest options.build.css
 
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 # [タスク][css] scssをcompassでビルド
@@ -119,7 +122,16 @@ gulp.task 'js:vendor', ['js:clean'], ->
     gulp.src options.src.vendor + '/jquery/dist/jquery.min.js'
         .pipe rename prefix: '0-'
         .pipe gulp.dest options.build.js
+    gulp.src options.src.vendor + '/jquery/dist/jquery.min.map'
+        .pipe gulp.dest options.dest.js
+    gulp.src options.src.vendor + '/bootstrap-sass/assets/javascripts/bootstrap.min.js'
+        .pipe rename prefix: '1-'
+        .pipe gulp.dest options.build.js
     gulp.src options.src.vendor + '/respond-minmax/dest/respond.min.js'
+        .pipe gulp.dest options.dest.js
+    gulp.src options.src.vendor + '/html5shiv/dist/html5shiv.min.js'
+        .pipe gulp.dest options.dest.js
+    gulp.src options.src.vendor + '/html5shiv/dist/html5shiv-printshiv.min.js'
         .pipe gulp.dest options.dest.js
 
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
