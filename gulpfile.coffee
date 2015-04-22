@@ -50,9 +50,6 @@ gulp.task 'css', ->
 # [タスク][css] ベンダーディレクトリから必要なCSSを収集する
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 gulp.task 'css:vendor', ['css:clean'], ->
-    gulp.src options.src.vendor + '/normalize.css/normalize.css'
-        .pipe rename prefix: '0-'
-        .pipe gulp.dest options.build.css
 
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 # [タスク][css] scssをcompassでビルド
@@ -119,7 +116,7 @@ gulp.task 'js', ->
 # [タスク][js] ベンダーディレクトリから必要なJavaScriptを収集する
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 gulp.task 'js:vendor', ['js:clean'], ->
-    gulp.src options.src.vendor + '/zepto/zepto.min.js'
+    gulp.src options.src.vendor + '/jquery/dist/jquery.min.js'
         .pipe rename prefix: '0-'
         .pipe gulp.dest options.build.js
     gulp.src options.src.vendor + '/respond-minmax/dest/respond.min.js'

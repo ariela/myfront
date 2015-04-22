@@ -1,4 +1,36 @@
 //--+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-// partialのインポート
-//--+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+// Compassのインポート
 @import 'compass';
+
+//--+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+// primerのインポート + normalize.cssをsanitize.cssに変更
+// Global requirements
+@import "../vendor/primer-css/scss/variables";
+@import "../vendor/primer-css/scss/mixins";
+
+// Basecoat
+@import '../vendor/sanitize-css/sanitize.scss';
+@import "../vendor/primer-css/scss/base";
+@import "../vendor/primer-css/scss/type";
+@import "../vendor/primer-css/scss/layout";
+@import "../vendor/primer-css/scss/forms";
+@import "../vendor/primer-css/scss/utility";
+
+// Components
+@import "../vendor/primer-css/scss/alerts";
+@import "../vendor/primer-css/scss/avatars";
+@import "../vendor/primer-css/scss/blankslate";
+@import "../vendor/primer-css/scss/counter";
+@import "../vendor/primer-css/scss/buttons";
+@import "../vendor/primer-css/scss/menu";
+@import "../vendor/primer-css/scss/tabnav";
+@import "../vendor/primer-css/scss/filter-list";
+@import "../vendor/primer-css/scss/states";
+@import "../vendor/primer-css/scss/tooltips";
+
+// Utilities
+@import "../vendor/primer-css/scss/flex-table";
+@import "../vendor/primer-css/scss/truncate";
+
+//--+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
+// partialのインポート
