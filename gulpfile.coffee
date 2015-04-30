@@ -127,6 +127,9 @@ gulp.task 'js:vendor', ['js:clean'], ->
     gulp.src options.src.vendor + '/bootstrap-sass/assets/javascripts/bootstrap.min.js'
         .pipe rename prefix: '1-'
         .pipe gulp.dest options.build.js
+    gulp.src options.src.vendor + '/jquery.kerning/dist/jquery.kerning.js'
+        .pipe rename prefix: '2-'
+        .pipe gulp.dest options.build.js
     gulp.src options.src.vendor + '/respond-minmax/dest/respond.min.js'
         .pipe gulp.dest options.dest.js
     gulp.src options.src.vendor + '/html5shiv/dist/html5shiv.min.js'
