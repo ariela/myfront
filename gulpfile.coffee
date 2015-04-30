@@ -100,6 +100,7 @@ gulp.task 'css:archive', ->
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 gulp.task 'css:clean', ->
     del [
+        '.sass-cache'
         options.build.css + '/**/*'
         options.dest.css + '/main.*'
     ]
@@ -179,7 +180,9 @@ gulp.task 'js:clean', ->
     del [
         options.build.js + '/**/*'
         options.dest.js + '/main.*'
-        options.dest.js + '/respond.min.*'
+        options.dest.js + '/respond*'
+        options.dest.js + '/html5shiv*'
+        options.dest.js + '/*.map'
     ]
 
 #---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
